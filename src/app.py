@@ -33,12 +33,12 @@ def handle_members():
     response_body = members
     return jsonify(response_body), 200
 
-@app.route('/members/<int:member_id>', methods=['GET'])
+@app.route('/member/<int:member_id>', methods=['GET'])
 def handle_member(member_id):
     response_body = jackson_family.get_member(member_id)
     return jsonify(response_body), 200
 
-@app.route('/members/', methods=['POST'])
+@app.route('/member/', methods=['POST'])
 def add_new_member():
 
     # tomar los datos del request, propiedad por propiedad con el metodo .get()
@@ -58,7 +58,7 @@ def add_new_member():
     jackson_family.add_member(member) # añadir el nuevo miembro al objeto de la familia jackson, no a la clase
     return jsonify("añadido"), 200
 
-@app.route('/members/<int:member_id>', methods=['DELETE'])
+@app.route('/member/<int:member_id>', methods=['DELETE'])
 def del_member(member_id):
 
     member1 = jackson_family.get_member(member_id)
