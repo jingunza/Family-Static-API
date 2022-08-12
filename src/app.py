@@ -29,14 +29,19 @@ def sitemap():
 
 @app.route('/members', methods=['GET'])
 def handle_members():
-    members = jackson_family.get_all_members()
+    members = jackson_family.get_all_members()  #traer a todos los miembros
     response_body = members
-    return jsonify(response_body), 200
+    return jsonify(response_body), 200  # responder los miembros
 
 @app.route('/member/<int:member_id>', methods=['GET'])
 def handle_member(member_id):
-    response_body = jackson_family.get_member(member_id)
-    return jsonify(response_body), 200
+
+    member1 = jackson_family.get_member(member_id)
+    if member1 is None:
+        raise APIException('member not found', status_code=400) 
+    else:
+        response_body = jackson_family.get_member(member_id)  # traer a un miembro
+        return jsonify(response_body), 200  # responder el miembro
 
 @app.route('/member/', methods=['POST'])
 def add_new_member():
@@ -47,7 +52,8 @@ def add_new_member():
     body_last_name = request.json.get('last_name')
     body_age = request.json.get('age')
     body_lucky_numbers = request.json.get('lucky_numbers')
-    # componer el miembro nuevo:
+
+    # componer el miembro nuevo con las variables anteriores obtenidas con get():
     member = {
         'id': body_id,
         'first_name': body_first_name,
@@ -55,17 +61,18 @@ def add_new_member():
         'age': body_age,
         'lucky_numbers': body_lucky_numbers
     }
-    jackson_family.add_member(member) # añadir el nuevo miembro al objeto de la familia jackson, no a la clase
+    # ahora agregar el nuevo miembro a la familia jackson, no a la clase
+    jackson_family.add_member(member)  
     return jsonify("añadido"), 200
 
 @app.route('/member/<int:member_id>', methods=['DELETE'])
 def del_member(member_id):
 
-    member1 = jackson_family.get_member(member_id)
+    member1 = jackson_family.get_member(member_id) # traer al miembro solicitado
     if member1 is None:
-        raise APIException('member not found', status_code=400) 
+        raise APIException('member not found', status_code=400)  # consultar si existe, sino arrojar error
     else:
-        jackson_family.delete_member(member_id)
+        jackson_family.delete_member(member_id) # si existe agregarlo a _members con la funcion
 
     return jsonify({'done': True}), 200
 

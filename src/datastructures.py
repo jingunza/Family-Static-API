@@ -13,9 +13,9 @@ class FamilyStructure:
     def __init__(self, last_name): # estas propiedades son de la familia, no de los miembros. Los miembros estan dentro de un array
         self.last_name = last_name
         # example list of members
-        self._members = [
+        self._members = [ # se debe llenar los valores de los miembros utilizando las propiedades last_name y _members de la clase
             {
-                'id' : self._generateId(), 
+                'id' : self._generateId(),  # este id se genera con la funcion
                 'first_name': "John",
                 'last_name': self.last_name,
                 'age': 33,
@@ -41,15 +41,15 @@ class FamilyStructure:
     def _generateId(self):
         return randint(0, 99999999)
 
-    def add_member(self, member):
+    def add_member(self, member):  # solo se trata de agregar a la propiedad members el nuevo miembro
         self._members.append(member)
 
-    def delete_member(self, id):
+    def delete_member(self, id): # se trata de eliminar el miembro cuyo id coincida con el parametro de entrada
         for miembro in self._members:
             if miembro['id'] == id:
                 self._members.remove(miembro)
 
-    def get_member(self, id):
+    def get_member(self, id): # consultar un miembro especifico en _members iterando el id interno (no es el id del array sino una key)
         for miembro in self._members:
             if miembro['id'] == id:
                 return miembro
