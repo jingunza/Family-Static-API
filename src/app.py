@@ -53,6 +53,12 @@ def add_new_member():
     body_age = request.json.get('age')
     body_lucky_numbers = request.json.get('lucky_numbers')
 
+    # Cambio sugerido por el profesor: descartar duplicidad. Se toma como criterio de duplicidad: mismo nombre, apellido y edad
+    all_members = list(jackson_family._members)
+    for x in all_members:
+        if x["first_name"] == body_first_name and x["last_name"] == body_last_name and x["age"] == body_age:
+           return jsonify("error, miembro ya existe"), 400 
+   
     # componer el miembro nuevo con las variables anteriores obtenidas con get():
     member = {
         'id': body_id,
